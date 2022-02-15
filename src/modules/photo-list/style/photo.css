@@ -1,0 +1,27 @@
+.photo-title-editable {
+  cursor: text;
+  padding: 7px;
+}
+.photo-title-editable:hover {
+  border-radius: 2px;
+  padding: 5px;
+  border: 2px solid #0d6efd;
+}
+
+.photo-title-editing {
+  /* overflow: hidden; */
+}
+.photo-title-editing {
+  /* textarea */
+  border-width: 2px;
+  border-radius: 2px;
+  padding: 5px;
+  resize: none;
+  width: 100%;
+  /* min-height: 44px; */
+}
+
+.photo-title-editing:focus {
+  /* textarea */
+  outline: none;
+}

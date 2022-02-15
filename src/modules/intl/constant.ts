@@ -1,0 +1,1 @@
+export const INTL_LANG = 'lang'
