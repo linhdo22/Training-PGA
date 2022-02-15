@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import "../style/photo.css";
 import { Photo } from "../redux/photoListReducer";
@@ -13,11 +13,17 @@ interface Props {
 const borderWidthx2 = 4;
 
 function PhotoComponent(props: Props) {
-  const { photo, updatePhoto, resetFlag } = props;
+  const { photo, updatePhoto, resetFlag, isModified } = props;
   const [editting, setEditting] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(photo.title);
-  // const [isModified, setIsModified] = useState(false);
   const inputElement = useRef<any>(null);
+
+  useEffect(() => {
+    setCurrentTitle(photo.title);
+    // other reset
+  }, [resetFlag, photo.title]);
+
+  const isEven = useMemo(() => photo.id % 2 == 0, [photo.id]);
 
   const handleSetEdit = (e: any) => {
     setEditting(true);
@@ -42,16 +48,11 @@ function PhotoComponent(props: Props) {
     }
   };
 
-  useEffect(() => {
-    setCurrentTitle(photo.title);
-    // other reset
-  }, [resetFlag, photo.title]);
-
   return (
     <div
-      className={`d-flex p-3 my-2 align-items-stretch border border-${
-        props.isModified ? "danger" : "primary"
-      }`}
+      className={`d-flex p-3 my-2 align-items-stretch border border-2 border-${
+        isModified ? "danger" : "primary"
+      } ${isEven ? "bg-secondary" : ""}`}
     >
       <div className="me-3">
         <img src={photo.thumbnailUrl} style={{ height: 100 }} />
@@ -63,7 +64,6 @@ function PhotoComponent(props: Props) {
           }`}
           ref={inputElement}
           value={currentTitle}
-          // rows={1}
           onBlur={() => setEditting(false)}
           onChange={handleTextChange}
         />

@@ -35,7 +35,7 @@ function PhotoListPage() {
   const updatePhotoList = (modifiedPhotos: Photo[]) => {
     const newList = photoList!.map((photo) => {
       const modifiedPhoto = modifiedPhotos.find(
-        (modifiedPhoto) => (modifiedPhoto.id = photo.id)
+        (modifiedPhoto) => modifiedPhoto.id == photo.id
       );
       if (modifiedPhoto) {
         return { ...photo, title: modifiedPhoto.title };
