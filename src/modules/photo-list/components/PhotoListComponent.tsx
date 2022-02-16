@@ -1,6 +1,4 @@
-import { debug } from "console";
 import React, { useCallback, useEffect, useState } from "react";
-import { useStore } from "react-redux";
 
 import { Photo, ModifiedInfo } from "../redux/photoListReducer";
 import PhotoComponent from "./PhotoComponent";
@@ -20,9 +18,6 @@ function PhotoListComponent(props: Props) {
     setModifiedPhotos((prev) => {
       const index = prev.findIndex((photo) => photo.id == id);
       const newList = prev.slice();
-      // debug;
-      console.log(prev);
-      // console.log(index);
       if (index < 0) {
         newList.push({ id: id, title: data.title });
       } else {
