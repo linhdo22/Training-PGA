@@ -8,7 +8,7 @@ import "./index.css";
 import IntlProviderWrapper from "./modules/intl/component/IntlProviderWrapper";
 import { createRootStore } from "./redux/configureStore";
 
-const { store } = createRootStore();
+const { store } = createRootStore({});
 
 ReactDOM.render(
   <React.StrictMode>
