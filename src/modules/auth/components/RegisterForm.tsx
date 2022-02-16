@@ -55,8 +55,9 @@ const RegisterForm = (props: Props) => {
         if (reponse.code !== RESPONSE_STATUS_OK) {
           // handle error
           setStates([]);
+          return;
         }
-        return setStates(reponse.data);
+        setStates(reponse.data);
       }
     }
     loadStates();

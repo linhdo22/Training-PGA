@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { Photo, ModifiedInfo } from "../redux/photoListReducer";
+import { IPhoto, IModifiedInfo } from "../redux/photoListReducer";
 import PhotoComponent from "./PhotoComponent";
 
 interface Props {
-  photoList?: Photo[];
+  photoList?: IPhoto[];
   loading: boolean;
-  updatePhotoList(modifiedPhotos: ModifiedInfo[]): void;
+  updatePhotoList(modifiedPhotos: IModifiedInfo[]): void;
 }
 
 function PhotoListComponent(props: Props) {
-  const [modifiedPhotos, setModifiedPhotos] = useState<ModifiedInfo[]>([]);
+  const [modifiedPhotos, setModifiedPhotos] = useState<IModifiedInfo[]>([]);
   const [photoList, setPhotoList] = useState(props.photoList);
   const [resetFlag, setResetFlag] = useState(false);
 
@@ -39,7 +39,6 @@ function PhotoListComponent(props: Props) {
   };
 
   const handleConfirm = () => {
-    console.log(modifiedPhotos);
     if (modifiedPhotos.length) {
       props.updatePhotoList(modifiedPhotos);
       setModifiedPhotos([]);
@@ -69,10 +68,7 @@ function PhotoListComponent(props: Props) {
       </div>
       <div className="d-flex flex-column my-2">
         {!!photoList &&
-          photoList.map((photo, index) => {
-            if (index > 10) {
-              return;
-            }
+          photoList.map((photo) => {
             const inx = modifiedPhotos.findIndex((modifiedPhoto) => {
               return modifiedPhoto.id == photo.id;
             });

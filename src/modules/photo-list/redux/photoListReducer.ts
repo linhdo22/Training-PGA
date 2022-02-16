@@ -1,12 +1,12 @@
 import { getType, createCustomAction, ActionType } from "typesafe-actions"
 
-export interface ModifiedInfo {
+export interface IModifiedInfo {
     id: number,
     title: string,
 
 }
 
-export interface Photo {
+export interface IPhoto {
     almbumId: number,
     id: number,
     title: string,
@@ -15,14 +15,15 @@ export interface Photo {
 }
 
 export interface PhotoListState {
-    list?: Photo[]
+    list?: IPhoto[]
 }
 
 export const setPhotoListAction = createCustomAction('photolist/setPhotoList', (photoList) => ({ photoList }));
-
 export const updatePhotoListAction = createCustomAction('photolist/updatePhotoList', (modifiedList) => ({ modifiedList }));
+export const insertPhotoListAction = createCustomAction('photolist/insertPhotoList', (insertedList: IPhoto[]) => ({ insertedList }));
 
-const actions = { setPhotoListAction, updatePhotoListAction }
+
+const actions = { setPhotoListAction, updatePhotoListAction, insertPhotoListAction }
 
 type PhotoListActions = ActionType<typeof actions>
 
@@ -32,6 +33,8 @@ export default function reducer(state: PhotoListState = {}, action: PhotoListAct
             return { ...state, list: action.photoList }
         case getType(updatePhotoListAction):
             return { ...state, list: action.modifiedList }
+        case getType(insertPhotoListAction):
+            return { ...state, list: action.insertedList }
         default:
             return state;
     }

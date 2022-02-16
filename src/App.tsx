@@ -14,9 +14,12 @@ import { AppState } from "./redux/reducers";
 import { API_PATH } from "./config/api";
 import { setUserAction } from "./modules/auth/redux/authReducer";
 
+// import ProfilePage from "./modules/profile/pages/ProfilePage";
 const HomePage = lazy(() => import("./modules/home/pages/HomePage"));
 const LoginPage = lazy(() => import("./modules/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("./modules/auth/pages/RegisterPage"));
+const ProfilePage = lazy(() => import("./modules/profile/pages/ProfilePage"));
+
 const PhotoListPage = lazy(
   () => import("./modules/photo-list/pages/PhotoListPage")
 );
@@ -45,9 +48,9 @@ function App() {
         <Switch>
           <ProtectedRoute exact path={ROUTES.home} component={HomePage} />
           <ProtectedRoute path={ROUTES.photoList} component={PhotoListPage} />
+          <ProtectedRoute path={ROUTES.profile} component={ProfilePage} />
           <Route path={ROUTES.login} component={LoginPage} />
           <Route path={ROUTES.register} component={RegisterPage} />
-          {/* <Route path="/" component={LoginPage} /> */}
         </Switch>
       </Suspense>
     </BrowserRouter>

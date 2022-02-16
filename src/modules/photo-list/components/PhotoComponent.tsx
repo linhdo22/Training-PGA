@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import "../style/photo.css";
-import { Photo } from "../redux/photoListReducer";
+import { IPhoto } from "../redux/photoListReducer";
 import EditableLableCompoent from "./EditableLabelComponent";
 interface Props {
-  photo: Photo;
+  photo: IPhoto;
   updatePhoto(id: number, data: object): any;
   isModified: boolean;
   resetFlag: boolean;
@@ -16,7 +16,6 @@ function PhotoComponent(props: Props) {
 
   useEffect(() => {
     setCurrentTitle(photo.title);
-    // other reset
   }, [resetFlag, photo.title]);
 
   const isEven = useMemo(() => photo.id % 2 == 0, [photo.id]);
@@ -40,7 +39,10 @@ function PhotoComponent(props: Props) {
           label={currentTitle}
           onChange={handleTitleChange}
         />
-        <p className="p-2">Time: {Date.now()}</p>
+        <div className="d-flex">
+          <p className="p-2">ID: {photo.id}</p>
+          <p className="p-2">Time: {Date.now()}</p>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 import LoginComponent from "../components/LoginForm";
 import { ILoginParams } from "../../../models/auth";
@@ -12,12 +12,15 @@ import { setUserAction } from "../redux/authReducer";
 import { RESPONSE_STATUS_OK } from "../../../utils/httpResponseCode";
 import { getErrorMessageResponse } from "../../../utils";
 import { ACCESS_TOKEN } from "../../../utils/constant";
+import { AppState } from "../../../redux/reducers";
+import { ROUTES } from "../../../config/routes";
 
 export default function LoginPage() {
   const dispatch = useDispatch<CustomThunkDispatch>();
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
+
   const onLogin = async (values: ILoginParams) => {
     setLoading(true);
     setErrorMessage("");
@@ -37,16 +40,24 @@ export default function LoginPage() {
     history.push("/");
   };
 
+  const isLogin = useMemo(() => Cookies.get(ACCESS_TOKEN), []);
+
   return (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{ height: "100vh" }}
-    >
-      <LoginComponent
-        errorMessage={errorMessage}
-        onLogin={onLogin}
-        loading={loading}
-      />
-    </div>
+    <>
+      {isLogin ? (
+        <Redirect to={ROUTES.home} />
+      ) : (
+        <div
+          className="d-flex align-items-center justify-content-center"
+          style={{ height: "100vh" }}
+        >
+          <LoginComponent
+            errorMessage={errorMessage}
+            onLogin={onLogin}
+            loading={loading}
+          />
+        </div>
+      )}
+    </>
   );
 }

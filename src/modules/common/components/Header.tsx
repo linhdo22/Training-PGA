@@ -1,11 +1,23 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+
 import { ROUTES } from "../../../config/routes";
 import { AppState } from "../../../redux/reducers";
+import { ACCESS_TOKEN } from "../../../utils/constant";
+import { logOutAction } from "../../auth/redux/authReducer";
 
 function Header() {
   const user = useSelector((state: AppState) => state.auth.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleLogout = () => {
+    dispatch(logOutAction());
+    Cookies.remove(ACCESS_TOKEN);
+    history.push(ROUTES.login);
+  };
 
   if (!user) {
     return null;
@@ -21,6 +33,14 @@ function Header() {
             <Link to={ROUTES.photoList} className="nav-link">
               Photo List
             </Link>
+            <Link to={ROUTES.profile} className="nav-link">
+              Profile
+            </Link>
+          </div>
+          <div className="ms-auto ">
+            <div className="btn btn-warning text-white" onClick={handleLogout}>
+              Logout
+            </div>
           </div>
         </div>
       </div>

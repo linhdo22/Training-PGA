@@ -27,7 +27,6 @@ export default function LoginComponent(props: Props) {
     e.preventDefault();
     const validation = validateLoginValues(formValues);
     setFormValidation(validation);
-    console.log(validation);
     if (!checkValidLoginForm(validation)) {
       return;
     }
