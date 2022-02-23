@@ -1,0 +1,45 @@
+$table-row-radius: 20px;
+$view-detail-btn-color: rgb(6, 164, 185);
+
+.product-table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  & tr td,
+  tr th {
+    padding: 10px 20px;
+  }
+  & tbody tr {
+    & td {
+      background-color: white;
+      &:first-child {
+        border-top-left-radius: $table-row-radius;
+        border-bottom-left-radius: $table-row-radius;
+      }
+      &:last-child {
+        border-top-right-radius: $table-row-radius;
+        border-bottom-right-radius: $table-row-radius;
+        &:hover {
+          background-color: rgb(220, 53, 69);
+          & i {
+            color: white !important;
+          }
+        }
+      }
+    }
+    & .view-detail-btn {
+      cursor: pointer;
+      border: 2px solid $view-detail-btn-color;
+      border-radius: 20px;
+      padding: 5px 10px;
+      text-align: center;
+      color: $view-detail-btn-color;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.pagination {
+  cursor: pointer;
+}

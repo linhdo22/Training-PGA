@@ -2,7 +2,7 @@ import { ActionType, createCustomAction, getType } from 'typesafe-actions'
 
 import { IUser } from '../../../models/user'
 
-export interface AuthState {
+export interface IAuthState {
     user?: IUser,
 }
 
@@ -16,7 +16,7 @@ const actions = { setUserAction, logOutAction }
 type AuthAction = ActionType<typeof actions>
 
 
-export default function reducer(state: AuthState = {}, action: AuthAction) {
+export default function reducer(state: IAuthState = {}, action: AuthAction) {
     switch (action.type) {
         case getType(setUserAction):
             return { ...state, user: action.user }

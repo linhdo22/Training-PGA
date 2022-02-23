@@ -1,16 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { API_PATH } from "../../../config/api";
 import { AppState } from "../../../redux/reducers";
-import { CustomFetch } from "../../common/utils";
-import {
-  IPhoto,
-  setPhotoListAction,
-  updatePhotoListAction,
-} from "../redux/photoListReducer";
+import { IPhoto, updatePhotoListAction } from "../redux/photoListReducer";
 import PhotoListComponent from "../components/PhotoListComponent";
 import { loadMorePhotos } from "../utils";
+import { CustomThunkDispatch } from "../../../redux/thunk";
 
 declare global {
   interface Window {
@@ -22,19 +17,10 @@ function PhotoListPage() {
   const [loading, setLoading] = useState(false);
   const [inserting, setInserting] = useState(false);
   const [start, setStart] = useState(20);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<CustomThunkDispatch>();
   const photoList = useSelector<AppState, IPhoto[] | undefined>(
     (state) => state.photoList.list
   );
-
-  // useEffect(() => {
-  //   (async function () {
-  //     setLoading(true);
-  //     const response = await CustomFetch(API_PATH.getPhotos);
-  //     setLoading(false);
-  //     dispatch(setPhotoListAction(response));
-  //   })();
-  // }, [dispatch]);
 
   const handleInsertPhotos = useCallback(async () => {
     await dispatch(loadMorePhotos(start));

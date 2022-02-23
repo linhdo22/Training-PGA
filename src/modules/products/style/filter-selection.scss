@@ -1,0 +1,52 @@
+$selection-border-color: rgba(0, 0, 0, 0.2);
+$selection-text-color: #117bd1;
+$selection-font-weight: 600;
+
+.filter-custom-selection {
+  position: relative;
+  user-select: none;
+  background-color: white;
+  &__title {
+    cursor: pointer;
+    border: {
+      width: 1px;
+      radius: 5px;
+      color: $selection-border-color;
+      style: solid;
+    }
+    padding: 5px 20px 5px 10px;
+    font-weight: $selection-font-weight;
+    color: $selection-text-color;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    & > i {
+      position: absolute;
+      right: 5px;
+      top: 9px;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    background-color: white;
+    border: {
+      width: 1px;
+      radius: 5px;
+      color: $selection-border-color;
+      style: solid;
+    }
+    & > div {
+      padding: 0px 10px;
+      cursor: pointer;
+    }
+    & > div.selected {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    & > div:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+}

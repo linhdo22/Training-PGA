@@ -1,0 +1,9 @@
+$table-background: #f6f7fb;
+$table-title-color: rgb(6, 164, 185);
+
+#table-container {
+  background-color: $table-background;
+  & #table-title {
+    color: $table-title-color;
+  }
+}

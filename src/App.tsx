@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useCallback, useEffect } from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -13,13 +13,16 @@ import { CustomFetch } from "./modules/common/utils";
 import { AppState } from "./redux/reducers";
 import { API_PATH } from "./config/api";
 import { setUserAction } from "./modules/auth/redux/authReducer";
+import { LIST_PAYROLL } from "./mock_data";
+import { setProductsAction } from "./modules/products/redux/productReducer";
+import { getStatus } from "./modules/products/utils";
+import { IProduct } from "./models/product";
 
-// import ProfilePage from "./modules/profile/pages/ProfilePage";
 const HomePage = lazy(() => import("./modules/home/pages/HomePage"));
 const LoginPage = lazy(() => import("./modules/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("./modules/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("./modules/profile/pages/ProfilePage"));
-
+const ProductPage = lazy(() => import("./modules/products/pages/ProductPage"));
 const PhotoListPage = lazy(
   () => import("./modules/photo-list/pages/PhotoListPage")
 );
@@ -28,7 +31,7 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector<AppState>((state) => state.auth.user);
 
-  const getProfile = React.useCallback(async () => {
+  const getProfile = useCallback(async () => {
     const accessToken = Cookies.get(ACCESS_TOKEN);
     if (accessToken && !user) {
       const reponse = await CustomFetch(API_PATH.getProfile);
@@ -38,9 +41,17 @@ function App() {
     }
   }, [dispatch, user]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getProfile();
   }, [getProfile]);
+
+  useEffect(() => {
+    const products = (LIST_PAYROLL.payrolls as any).map((product: IProduct) => {
+      product.status = getStatus(product);
+      return product;
+    });
+    dispatch(setProductsAction(products));
+  });
   return (
     <BrowserRouter>
       <Header />
@@ -49,6 +60,7 @@ function App() {
           <ProtectedRoute exact path={ROUTES.home} component={HomePage} />
           <ProtectedRoute path={ROUTES.photoList} component={PhotoListPage} />
           <ProtectedRoute path={ROUTES.profile} component={ProfilePage} />
+          <Route path={ROUTES.products} component={ProductPage} />
           <Route path={ROUTES.login} component={LoginPage} />
           <Route path={ROUTES.register} component={RegisterPage} />
         </Switch>

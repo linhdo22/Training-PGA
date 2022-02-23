@@ -9,19 +9,22 @@ const borderWidthx2 = 4;
 
 function EditableLabelComponent(props: Props) {
   const [editting, setEditting] = useState(false);
-  const inputElement = useRef<any>(null);
+  const inputElement = useRef<HTMLTextAreaElement>(null);
 
-  const handleSetEdit = (e: any) => {
+  const handleSetEdit = (e: React.MouseEvent<HTMLLabelElement>) => {
+    if (!inputElement.current) {
+      return;
+    }
     setEditting(true);
-    inputElement.current.style.height = e.target.offsetHeight + "px";
+    inputElement.current.style.height = e.currentTarget.offsetHeight + "px";
     setTimeout(() => {
-      inputElement.current.focus();
+      inputElement.current?.focus();
     }, 10);
   };
 
-  const handleTextChange = (e: any) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const target = e.target;
-    if (e.nativeEvent.inputType == "insertLineBreak") {
+    if ((e.nativeEvent as any).inputType == "insertLineBreak") {
       target.blur();
       return;
     }

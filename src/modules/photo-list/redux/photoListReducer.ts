@@ -14,7 +14,7 @@ export interface IPhoto {
     thumbnailUrl: string
 }
 
-export interface PhotoListState {
+export interface IPhotoListState {
     list?: IPhoto[]
 }
 
@@ -27,7 +27,7 @@ const actions = { setPhotoListAction, updatePhotoListAction, insertPhotoListActi
 
 type PhotoListActions = ActionType<typeof actions>
 
-export default function reducer(state: PhotoListState = {}, action: PhotoListActions) {
+export default function reducer(state: IPhotoListState = {}, action: PhotoListActions) {
     switch (action.type) {
         case getType(setPhotoListAction):
             return { ...state, list: action.photoList }

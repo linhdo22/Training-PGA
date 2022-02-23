@@ -36,6 +36,9 @@ function Header() {
             <Link to={ROUTES.profile} className="nav-link">
               Profile
             </Link>
+            <Link to={ROUTES.products} className="nav-link">
+              Products
+            </Link>
           </div>
           <div className="ms-auto ">
             <div className="btn btn-warning text-white" onClick={handleLogout}>

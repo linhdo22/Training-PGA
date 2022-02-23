@@ -12,20 +12,26 @@ interface Props {
 function PhotoListComponent(props: Props) {
   const [modifiedPhotos, setModifiedPhotos] = useState<IModifiedInfo[]>([]);
   const [photoList, setPhotoList] = useState(props.photoList);
-  const [resetFlag, setResetFlag] = useState(false);
 
-  const updatePhoto = useCallback((id: number, data: { title: string }) => {
-    setModifiedPhotos((prev) => {
-      const index = prev.findIndex((photo) => photo.id == id);
-      const newList = prev.slice();
-      if (index < 0) {
-        newList.push({ id: id, title: data.title });
-      } else {
-        newList[index].title = data.title;
-      }
-      return newList;
-    });
-  }, []);
+  const updatePhoto = useCallback(
+    (id: number, data: { title: string; isDifferent: boolean }) => {
+      setModifiedPhotos((prev) => {
+        const index = prev.findIndex((photo) => photo.id == id);
+        const newList = prev.slice();
+        if (index < 0) {
+          newList.push({ id: id, title: data.title });
+        } else {
+          if (data.isDifferent) {
+            newList[index].title = data.title;
+          } else {
+            newList.splice(index, 1);
+          }
+        }
+        return newList;
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     if (props.photoList) {
@@ -35,7 +41,6 @@ function PhotoListComponent(props: Props) {
 
   const handleReset = () => {
     setModifiedPhotos([]);
-    setResetFlag(!resetFlag);
   };
 
   const handleConfirm = () => {
@@ -69,16 +74,15 @@ function PhotoListComponent(props: Props) {
       <div className="d-flex flex-column my-2">
         {!!photoList &&
           photoList.map((photo) => {
-            const inx = modifiedPhotos.findIndex((modifiedPhoto) => {
-              return modifiedPhoto.id == photo.id;
-            });
+            const inx = modifiedPhotos.findIndex(
+              (modifiedPhoto) => photo.id == modifiedPhoto.id
+            );
             return (
               <PhotoComponent
                 photo={photo}
+                title={inx > -1 ? modifiedPhotos[inx].title : photo.title}
                 key={photo.id}
                 updatePhoto={updatePhoto}
-                isModified={inx >= 0 ? true : false}
-                resetFlag={resetFlag}
               />
             );
           })}
