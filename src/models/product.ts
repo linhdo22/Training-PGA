@@ -3,6 +3,7 @@ export interface IFilterObject {
     client: string;
     from: Date | null;
     to: Date | null;
+    order: string
 }
 
 export enum SortBy {

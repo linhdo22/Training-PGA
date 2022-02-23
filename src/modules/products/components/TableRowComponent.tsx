@@ -8,7 +8,6 @@ import {
   setRemovingProductAction,
   setViewingDetailProductAction,
 } from "../redux/productReducer";
-import { getStatus } from "../utils";
 
 interface Props {
   product: IProduct;
@@ -17,11 +16,8 @@ interface Props {
 function TableRowComponent(props: Props) {
   const { product } = props;
   const dispatch = useDispatch();
-  const status = useMemo(() => {
-    return getStatus(product!);
-  }, [product]);
   const statusColor = useMemo(() => {
-    switch (status) {
+    switch (product.status) {
       case "processing":
         return "text-warning";
       case "fulfilled":
@@ -35,7 +31,7 @@ function TableRowComponent(props: Props) {
       default:
         return "";
     }
-  }, [status]);
+  }, [product.status]);
 
   const handleViewDetail = () => {
     dispatch(setViewingDetailProductAction(product));
@@ -45,7 +41,9 @@ function TableRowComponent(props: Props) {
   };
   return (
     <tr className="product-table-row">
-      <td className={`text-capitalize fw-bold ${statusColor}`}>{status}</td>
+      <td className={`text-capitalize fw-bold ${statusColor}`}>
+        {product.status}
+      </td>
       <td>{moment(product.time_created).format("DD/MM/YYYY")}</td>
       <td>{product?.currency}</td>
       <td className="fw-bold">
@@ -57,6 +55,7 @@ function TableRowComponent(props: Props) {
       <td>{product.payroll_id}</td>
       <td>
         <div className="view-detail-btn" onClick={handleViewDetail}>
+          {/* View detail */}
           {Date.now()}
         </div>
       </td>
@@ -72,3 +71,4 @@ function TableRowComponent(props: Props) {
 }
 
 export default React.memo(TableRowComponent);
+// export default TableRowComponent;

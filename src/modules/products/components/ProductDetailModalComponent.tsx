@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "bootstrap";
 
-import { setViewingDetailProductAction } from "../redux/productReducer";
-import moment from "moment";
+import {
+  setUpdateProductAction,
+  setViewingDetailProductAction,
+} from "../redux/productReducer";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../redux/reducers";
 import { useDispatch } from "react-redux";
 import { IProduct } from "../../../models/product";
+import SelectionComponent from "./SelectionComponent";
+import { statusSelectionOptions } from "../utils";
+import PickDateComponent from "./PickDateComponent";
 
 function ProductDetailModalComponent() {
   const viewingProduct = useSelector<AppState, IProduct | null>(
     (state) => state.products.viewingDetailProduct
   );
+  const [localProduct, setLocalProduct] = useState<IProduct | null>(null);
   const dispatch = useDispatch();
   const modal = useRef<Modal | null>(null);
 
@@ -32,6 +38,7 @@ function ProductDetailModalComponent() {
 
   useEffect(() => {
     if (viewingProduct) {
+      setLocalProduct(viewingProduct);
       modal.current?.show();
     }
   }, [viewingProduct]);
@@ -41,6 +48,11 @@ function ProductDetailModalComponent() {
       return;
     }
     modal.current.hide();
+  };
+  const handleUpdate = () => {
+    //validate
+    dispatch(setUpdateProductAction(localProduct));
+    handleCloseModal();
   };
   return (
     <>
@@ -58,14 +70,18 @@ function ProductDetailModalComponent() {
             <div className="modal-body">
               {/* status  */}
               <div className="mb-3">
-                <label htmlFor="detail-product-status" className="form-label">
-                  Status
-                </label>
-                <input
-                  onChange={() => {}}
-                  className="form-control"
-                  id="detail-product-status"
-                  value={viewingProduct?.status || ""}
+                <label className="form-label">Status</label>
+                <SelectionComponent
+                  width={200}
+                  title="Status"
+                  list={statusSelectionOptions}
+                  onSelect={(data) =>
+                    setLocalProduct({
+                      ...localProduct!,
+                      status: data.value,
+                    })
+                  }
+                  selectedValue={localProduct?.status!}
                 />
               </div>
               {/* createDate  */}
@@ -76,14 +92,21 @@ function ProductDetailModalComponent() {
                 >
                   Date
                 </label>
-                <input
-                  onChange={() => {}}
-                  className="form-control"
-                  id="detail-product-create-date"
-                  value={moment(viewingProduct?.time_created || "").format(
-                    "DD/MM/YYYY"
-                  )}
-                />
+                <div>
+                  <PickDateComponent
+                    onChange={(date) =>
+                      setLocalProduct({
+                        ...localProduct!,
+                        time_created: date!.toString(),
+                      })
+                    }
+                    selectedValue={
+                      localProduct?.time_created
+                        ? new Date(localProduct?.time_created)
+                        : null
+                    }
+                  />
+                </div>
               </div>
               {/* currency  */}
               <div className="mb-3">
@@ -91,6 +114,7 @@ function ProductDetailModalComponent() {
                   Currency
                 </label>
                 <input
+                  disabled
                   onChange={() => {}}
                   className="form-control"
                   id="detail-product-currency"
@@ -103,6 +127,7 @@ function ProductDetailModalComponent() {
                   Total
                 </label>
                 <input
+                  disabled
                   onChange={() => {}}
                   className="form-control"
                   id="detail-product-total"
@@ -123,6 +148,7 @@ function ProductDetailModalComponent() {
                   Order
                 </label>
                 <input
+                  disabled
                   onChange={() => {}}
                   className="form-control"
                   id="detail-product-create-date"
@@ -138,7 +164,11 @@ function ProductDetailModalComponent() {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleUpdate}
+              >
                 Save changes
               </button>
             </div>

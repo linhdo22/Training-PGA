@@ -1,4 +1,4 @@
-import React, { useCallback,  useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import "../style/filter-selection.scss";
 
@@ -12,10 +12,11 @@ interface Props {
   list: SelectOption[];
   onSelect(selection: SelectOption): void;
   selectedValue: string;
+  width?: number;
 }
 
-function FilterSelectionComponent(props: Props) {
-  const { title, list, onSelect, selectedValue } = props;
+function SelectionComponent(props: Props) {
+  const { title, list, onSelect, selectedValue, width } = props;
   const [expand, setExpand] = useState(false);
 
   const handleExpand = () => {
@@ -32,7 +33,11 @@ function FilterSelectionComponent(props: Props) {
 
   return (
     <div className="filter-custom-selection" tabIndex={0} onBlur={handleBlur}>
-      <div className="filter-custom-selection__title " onClick={handleExpand}>
+      <div
+        className="filter-custom-selection__title "
+        onClick={handleExpand}
+        style={width ? { width } : {}}
+      >
         {selectedValue
           ? list.find((option) => option.value == selectedValue)?.label
           : title}
@@ -58,4 +63,4 @@ function FilterSelectionComponent(props: Props) {
   );
 }
 
-export default FilterSelectionComponent;
+export default SelectionComponent;

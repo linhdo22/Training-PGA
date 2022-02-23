@@ -58,4 +58,4 @@ function TablePaginationCompoent(props: Props) {
   );
 }
 
-export default TablePaginationCompoent;
+export default React.memo(TablePaginationCompoent);

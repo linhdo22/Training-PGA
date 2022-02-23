@@ -1,0 +1,14 @@
+$input-border-color: rgba(0, 0, 0, 0.2);
+
+.filter-custom-input {
+  & > input {
+    cursor: pointer;
+    border: {
+      width: 1px;
+      radius: 5px;
+      color: $input-border-color;
+      style: solid;
+    }
+    padding: 5px 20px 5px 10px;
+  }
+}

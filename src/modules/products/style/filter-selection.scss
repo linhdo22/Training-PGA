@@ -30,6 +30,7 @@ $selection-font-weight: 600;
   }
 
   &__content {
+    z-index: 10;
     position: absolute;
     background-color: white;
     border: {

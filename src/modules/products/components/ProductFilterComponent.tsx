@@ -1,7 +1,8 @@
 import React from "react";
 
-import FilterDateComponent from "./FilterDateComponent";
-import FilterSelectionComponent from "./FilterSelectionComponent";
+import PickDateComponent from "./PickDateComponent";
+import SelectionComponent from "./SelectionComponent";
+import InputComponent from "./InputComponent";
 import { statusSelectionOptions, validateDate } from "../utils";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../redux/reducers";
@@ -21,8 +22,16 @@ function ProductFilterComponent() {
   ) => {
     let newFilterObject = { ...filterObject };
     if (type == "clear") {
-      newFilterObject = { status: "", client: "", from: null, to: null };
+      newFilterObject = {
+        status: "",
+        client: "",
+        from: null,
+        to: null,
+        order: "",
+      };
     } else if (type == "status" && typeof value == "string") {
+      newFilterObject[type] = value;
+    } else if (type == "order" && typeof value == "string") {
       newFilterObject[type] = value;
     } else if (type == "from" && typeof value != "string") {
       if (validateDate(value, filterObject.to)) {
@@ -41,24 +50,16 @@ function ProductFilterComponent() {
       <div className="d-flex me-auto">
         {/* filter status */}
         <div className="me-3">
-          <FilterSelectionComponent
+          <SelectionComponent
             title="Status"
             list={statusSelectionOptions}
             onSelect={(data) => handleChangeFilter("status", data.value)}
             selectedValue={filterObject.status}
           />
         </div>
-        {/* filter client */}
-        {/* <div className="me-3">
-          <FilterSelectionComponent
-            title="Client"
-            list={statusSelectionOptions}
-            onSelect={(data) => console.log(data)}
-          />
-        </div> */}
         {/* filter from  */}
         <div className="me-3">
-          <FilterDateComponent
+          <PickDateComponent
             placeholder="From "
             onChange={(date) => handleChangeFilter("from", date)}
             selectedValue={filterObject.from}
@@ -66,10 +67,18 @@ function ProductFilterComponent() {
         </div>
         {/* filter to  */}
         <div className="me-3">
-          <FilterDateComponent
+          <PickDateComponent
             placeholder="To "
             onChange={(date) => handleChangeFilter("to", date)}
             selectedValue={filterObject.to}
+          />
+        </div>
+        {/* Search  */}
+        <div className="me-3">
+          <InputComponent
+            placeholder="Order "
+            onChange={(text) => handleChangeFilter("order", text)}
+            value={filterObject.order}
           />
         </div>
       </div>

@@ -8,7 +8,8 @@ const CustomDateInput = React.forwardRef(function DateInput(
   props: any,
   ref: any
 ) {
-  const { value, onClick, placeholder, onChange, onRemove } = props;
+  const { value, onClick, isClearable, placeholder, onChange, onRemove } =
+    props;
   return (
     <div className="filter-custom-date">
       <input
@@ -18,7 +19,7 @@ const CustomDateInput = React.forwardRef(function DateInput(
         onClick={onClick}
         placeholder={placeholder}
       />
-      {value && (
+      {value && isClearable && (
         <i
           className="fa-solid fa-circle-xmark text-danger remove"
           onClick={onRemove}
@@ -33,10 +34,11 @@ interface Props {
   placeholder?: string;
   onChange(date: Date | null): void;
   selectedValue: Date | null;
+  isClearable?: boolean;
 }
 
-function FilterDateComponent(props: Props) {
-  const { placeholder, selectedValue } = props;
+function PickDateComponent(props: Props) {
+  const { placeholder, selectedValue, isClearable } = props;
   const handleChange = (date: Date | null) => {
     props.onChange(date);
   };
@@ -47,10 +49,12 @@ function FilterDateComponent(props: Props) {
     <DatePicker
       selected={selectedValue}
       onChange={handleChange}
-      customInput={<CustomDateInput onRemove={handleRemove} />}
+      customInput={
+        <CustomDateInput onRemove={handleRemove} isClearable={isClearable} />
+      }
       placeholderText={placeholder}
     />
   );
 }
 
-export default FilterDateComponent;
+export default PickDateComponent;
