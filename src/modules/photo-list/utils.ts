@@ -1,8 +1,9 @@
 
 import { API_PATH } from "../../config/api"
+import { IPhoto } from "../../models/photo"
 import { CustomThunkAction } from "../../redux/thunk"
 import { CustomFetch } from "../common/utils"
-import { insertPhotoListAction, IPhoto } from "./redux/photoListReducer"
+import { insertPhotoListAction } from "./redux/photoListReducer"
 
 export const loadMorePhotos = (start: number, amount: number = 10): CustomThunkAction => async (dispatch, getState) => {
     const photoList = getState().photoList.list?.slice() || []

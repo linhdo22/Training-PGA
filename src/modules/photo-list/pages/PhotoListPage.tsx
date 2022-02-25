@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppState } from "../../../redux/reducers";
-import { IPhoto, updatePhotoListAction } from "../redux/photoListReducer";
+import { updatePhotoListAction } from "../redux/photoListReducer";
 import PhotoListComponent from "../components/PhotoListComponent";
 import { loadMorePhotos } from "../utils";
 import { CustomThunkDispatch } from "../../../redux/thunk";
+import { IPhoto } from "../../../models/photo";
 
 declare global {
   interface Window {
@@ -14,7 +15,6 @@ declare global {
 }
 
 function PhotoListPage() {
-  const [loading, setLoading] = useState(false);
   const [inserting, setInserting] = useState(false);
   const [start, setStart] = useState(20);
   const dispatch = useDispatch<CustomThunkDispatch>();
@@ -78,7 +78,6 @@ function PhotoListPage() {
       <div className="row my-5">
         <div className="col-6 offset-3 border-primary border rounded-3">
           <PhotoListComponent
-            loading={loading}
             photoList={photoList}
             updatePhotoList={updatePhotoList}
           />

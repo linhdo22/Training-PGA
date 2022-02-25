@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { IPhoto, IModifiedInfo } from "../redux/photoListReducer";
+import { IModifiedInfo, IPhoto } from "../../../models/photo";
 import PhotoComponent from "./PhotoComponent";
 
 interface Props {
   photoList?: IPhoto[];
-  loading: boolean;
   updatePhotoList(modifiedPhotos: IModifiedInfo[]): void;
 }
 

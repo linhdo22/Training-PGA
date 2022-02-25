@@ -21,6 +21,7 @@ export const API_PATH = {
     signIn: getBaseUrl(APIService.auth) + "/login",
     register: getBaseUrl(APIService.auth) + "/register",
     getProfile: getBaseUrl(APIService.public) + "/user",
+    uploadAvatar: getBaseUrl(APIService.public) + "/user",
     getLocation: getBaseUrl(APIService.public) + "/location",
     getPhotos: 'https://jsonplaceholder.typicode.com/photos'
 }

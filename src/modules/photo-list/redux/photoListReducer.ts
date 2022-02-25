@@ -1,21 +1,10 @@
 import { getType, createCustomAction, ActionType } from "typesafe-actions"
+import { IPhoto } from "../../../models/photo";
 
-export interface IModifiedInfo {
-    id: number,
-    title: string,
 
-}
-
-export interface IPhoto {
-    almbumId: number,
-    id: number,
-    title: string,
-    url: string,
-    thumbnailUrl: string
-}
 
 export interface IPhotoListState {
-    list?: IPhoto[]
+    list: IPhoto[]
 }
 
 export const setPhotoListAction = createCustomAction('photolist/setPhotoList', (photoList) => ({ photoList }));
@@ -27,7 +16,7 @@ const actions = { setPhotoListAction, updatePhotoListAction, insertPhotoListActi
 
 type PhotoListActions = ActionType<typeof actions>
 
-export default function reducer(state: IPhotoListState = {}, action: PhotoListActions) {
+export default function reducer(state: IPhotoListState = { list: [] }, action: PhotoListActions) {
     switch (action.type) {
         case getType(setPhotoListAction):
             return { ...state, list: action.photoList }

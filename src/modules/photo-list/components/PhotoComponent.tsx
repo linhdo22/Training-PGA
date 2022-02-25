@@ -1,8 +1,11 @@
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../../config/routes";
 
+import { IPhoto } from "../../../models/photo";
 import "../style/photo.css";
-import { IPhoto } from "../redux/photoListReducer";
 import EditableLableCompoent from "./EditableLabelComponent";
+
 interface Props {
   photo: IPhoto;
   updatePhoto(id: number, data: object): any;
@@ -25,7 +28,9 @@ function PhotoComponent(props: Props) {
       } ${isEven ? "bg-secondary" : ""}`}
     >
       <div className="me-3">
-        <img src={photo.thumbnailUrl} style={{ height: 100 }} />
+        <Link to={`${ROUTES.photoList}/${photo.id}`}>
+          <img src={photo.thumbnailUrl} style={{ height: 100 }} />
+        </Link>
       </div>
       <div className="flex-fill">
         <EditableLableCompoent label={title} onChange={handleTitleChange} />

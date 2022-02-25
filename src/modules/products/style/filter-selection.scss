@@ -5,8 +5,8 @@ $selection-font-weight: 600;
 .filter-custom-selection {
   position: relative;
   user-select: none;
-  background-color: white;
   &__title {
+    background-color: white;
     cursor: pointer;
     border: {
       width: 1px;
@@ -17,7 +17,7 @@ $selection-font-weight: 600;
     padding: 5px 20px 5px 10px;
     font-weight: $selection-font-weight;
     color: $selection-text-color;
-    width: 100px;
+    width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
